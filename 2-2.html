@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2-2</title>
+    <style>
+    .wrapper{
+        margin: 20% auto 50px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    body{
+        background: linear-gradient(90deg,lightyellow, lightblue );
+    }
+    .container{
+        text-align: center;
+        width: 75%;
+        height: 75px;
+        font-size: 50px;
+        border: 3px solid #667eea;
+        border-radius: 10px;
+        background-color: "grey";
+    }
+    .osnova__items{
+        width: 70%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .button__down{
+        width: 75px;
+        height: 75px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid black;
+        border-radius: 5px;
+        background: linear-gradient(135deg,rgb(255, 189, 189), rgb(255, 0, 0) );
+    }
+    .button__down:hover{
+        background: linear-gradient(45deg,rgb(255, 189, 189), rgb(255, 0, 0) );
+    }
+    .button__up{
+        width: 75px;
+        height: 75px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid black;
+        border-radius: 5px;
+        background: linear-gradient(135deg,rgb(189, 255, 183), rgb(9, 173, 45) );
+    }
+    .button__up:hover{
+        background: linear-gradient(45deg,rgb(189, 255, 183), rgb(9, 173, 45) );
+    }
+    .limit-message {
+        margin-top: 20px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        display: none;
+        background-color: #ff6b6b;
+        color: white;
+    }
+    
+    .limit-message.show {
+        display: block;
+    }
+</style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="osnova__items">
+            <button class="button__down" id="downBtn" onclick="decrease()">-</button>
+            <input type="text" id="counter" class="container" value="0" readonly>
+            <button class="button__up" id="upBtn" onclick="increase()">+</button>
+        </div>
+        <div id="limitMessage" class="limit-message"></div>
+    </div>
+
+    <script>
+        let counterElement = document.getElementById("counter");
+        let upButton = document.getElementById("upBtn");
+        let downButton = document.getElementById("downBtn");
+        let limitMessage = document.getElementById("limitMessage");
+        
+        const upButtonOriginalStyle = "linear-gradient(135deg,rgb(189, 255, 183), rgb(9, 173, 45))";
+        const downButtonOriginalStyle = "linear-gradient(135deg,rgb(255, 189, 189), rgb(255, 0, 0))";
+        
+        function updateContainer(){
+            let currentValue = parseInt(counterElement.value);
+            
+            if (currentValue > 0){
+                counterElement.style.backgroundColor = "rgb(9, 173, 45)";
+                counterElement.style.color = "white";
+            }
+            else if (currentValue == 0){
+                counterElement.style.backgroundColor = "gray";
+                counterElement.style.color = "white";
+            }
+            else if (currentValue < 0){
+                counterElement.style.backgroundColor = "rgb(255, 0, 0)";
+                counterElement.style.color = "white";
+            }
+
+            if (currentValue >= 10) {
+                upButton.style.background = "grey";
+                limitMessage.textContent = "Достигнут максимум! (10)";
+                limitMessage.classList.add("show");
+            } else {
+                upButton.style.background = upButtonOriginalStyle;
+            }
+
+            if (currentValue <= -10) {
+                downButton.style.background = "grey";
+                limitMessage.textContent = "Достигнут минимум! (-10)";
+                limitMessage.classList.add("show");
+            } else {
+                downButton.style.background = downButtonOriginalStyle;
+            }
+
+            if (currentValue < 10 && currentValue > -10) {
+                limitMessage.classList.remove("show");
+            }
+        }
+
+        function increase() {
+            let currentValue = parseInt(counterElement.value);
+            if (currentValue < 10){
+                counterElement.value = currentValue + 1;
+                updateContainer();
+            }
+        }
+        
+        function decrease() {
+            let currentValue = parseInt(counterElement.value);
+            if (currentValue > -10){
+                counterElement.value = currentValue - 1;
+                updateContainer();
+            }
+        }
+        updateContainer();
+    </script>
+</body>
+</html>
